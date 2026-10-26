@@ -1,0 +1,74 @@
+{
+  "sampleCount": 1,
+  "chapters": 7,
+  "demonstrations": 13,
+  "catalogItems": 59,
+  "defaultThemes": [
+    "light",
+    "dark"
+  ],
+  "tests": {
+    "passed": 473,
+    "failed": 0
+  },
+  "checks": [
+    "TypeScript build",
+    "full reply dual-theme server render",
+    "13 demonstrations per theme",
+    "KaTeX output",
+    "local photos and downloads",
+    "59 item catalog",
+    "original OpenUI programs",
+    "reactive card/table switching",
+    "form field changes and theme state isolation",
+    "three map pins and hover/focus info cards",
+    "round checklist DOM toggling",
+    "real Mermaid parser",
+    "real ECharts light/dark line/pie SVG rendering",
+    "native ECharts toolbox: dataView, restore and SVG saveAsImage",
+    "confined native ECharts tooltips",
+    "ECharts optionToContent: semantic tables, current values, and safe label text",
+    "SCHEMA v1 ZIP round trip with embedded image bytes",
+    "DOM capture, KaTeX, code and table rendering",
+    "unsafe HTML stripping and ZIP path/size/version validation",
+    "SDK tarball installed and built in an independent React/Vite consumer",
+    "MV3 image bridge origin permission, sender and MIME tests",
+    "reply detection without author-role attributes and within open shadow roots",
+    "stable reply keys shared by scan and export",
+    "manual selection and popup empty/error recovery",
+    "actual reference reply DOM captured, ZIP round-tripped and layout semantics recovered",
+    "legacy icon-card, metric and image-grid structural recovery",
+    "shared reading CSS applied to reference and imported icon rows",
+    "body heading deduplication and section hierarchy normalization",
+    "HTML code-copy portals, KaTeX stability and SVG ID isolation",
+    "hidden application headings and closed image dialogs excluded"
+  ],
+  "browserVerification": "未执行实时浏览器视觉验收；已进行 DOM 交互单元测试及渲染器测试。",
+  "referenceLimit": "按上传原尺寸截图重建，遮挡文字按上下文补齐；文件重制、来源标题未独立核实。",
+  "upstreamComparison": "/?view=blocks",
+  "renderers": {
+    "diagram": "Mermaid 12",
+    "charts": "Apache ECharts 6 (SVG renderer)",
+    "map": "MapLibre, upstream vector/raster basemap",
+    "icons": "Lucide SVG and GitHub favicon"
+  },
+  "theme": {
+    "surface": "#fcfcfc",
+    "ink": "#0d0d0d",
+    "accent": "#3a83f7",
+    "bodyFontSize": 16,
+    "bodyLineHeight": 1.75,
+    "codeFontSize": 12,
+    "tableFontSize": 14
+  },
+  "portableDocument": {
+    "version": 1,
+    "route": "/?view=import",
+    "extension": "MV3 manual installation",
+    "chromeLiveVerified": false,
+    "extensionVersion": "1.0.2",
+    "sdkVersion": "1.0.1",
+    "presentation": "moyue-reading-v1",
+    "realUserArchiveVerified": false
+  }
+}

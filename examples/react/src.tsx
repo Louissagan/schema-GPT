@@ -1,0 +1,5 @@
+import React, {useEffect,useMemo,useState} from 'react';
+import {createRoot} from 'react-dom/client';
+import {DocumentRenderer,createDocument,unpackDocument,createAssetResolver, type DocumentBundle} from '@moyue/document-kit';
+import '@moyue/document-kit/style.css';
+function App(){const [bundle,setBundle]=useState<DocumentBundle>({document:createDocument('# 你好\n\n上传插件导出的文档包。','独立项目'),files:{}});const [error,setError]=useState('');const assets=useMemo(()=>createAssetResolver(bundle),[bundle]);useEffect(()=>()=>assets.dispose(),[assets]);return <><input type="file" accept=".zip" onChange={async e=>{try{const file=e.target.files?.[0];if(file){setBundle(unpackDocument(new Uint8Array(await file.arrayBuffer())));setError('');}}catch(e){setError(String(e));}}}/><p role="alert">{error}</p><DocumentRenderer document={bundle.document} resolveAsset={assets.resolve}/><DocumentRenderer document={bundle.document} resolveAsset={assets.resolve} theme="dark"/></>;}createRoot(document.getElementById('root')!).render(<App/>);

@@ -1,0 +1,42 @@
+import {build} from 'esbuild';
+import {mkdir,readFile,writeFile,cp,rm,readdir} from 'node:fs/promises';
+import {execFileSync} from 'node:child_process';
+import {zipSync} from 'fflate';
+import {z} from 'zod';
+const extensionVersion=JSON.parse(await readFile('extension/manifest.json','utf8')).version;
+const out='public/downloads';await mkdir(out,{recursive:true});
+await build({entryPoints:['packages/moyue/src/index.ts'],outdir:'packages/moyue/dist',bundle:true,format:'esm',platform:'browser',packages:'external',jsx:'automatic'});
+execFileSync('npx',['tsc','-p','packages/moyue/tsconfig.json'],{stdio:'inherit'});
+await build({entryPoints:['packages/moyue/src/document.ts'],outfile:'artifacts/document-schema.mjs',bundle:true,format:'esm',platform:'node',packages:'external'});
+const {documentSchema}=await import('../artifacts/document-schema.mjs?'+Date.now());
+await writeFile('packages/moyue/document.schema.json',JSON.stringify(z.toJSONSchema(documentSchema),null,2));
+execFileSync('npx',['tsc','-p','extension/tsconfig.json'],{stdio:'inherit'});
+await build({entryPoints:['extension/content.ts'],outfile:'artifacts/extension/content.js',bundle:true,format:'iife',platform:'browser',minify:true});
+for(const file of ['manifest.json','popup.html','popup.css','popup.js','background.js'])await cp('extension/'+file,'artifacts/extension/'+file);
+await cp('extension/icons','artifacts/extension/icons',{recursive:true});
+await cp('extension/logo.png','artifacts/extension/logo.png');
+await cp('packages/moyue/LICENSE','artifacts/extension/LICENSE');
+let notices='Bundled dependencies and their original licenses\n';
+for(const name of ['dompurify','fflate','zod']) notices+='\n\n## '+name+'\n'+await readFile('node_modules/'+name+'/LICENSE','utf8');
+await writeFile('artifacts/extension/THIRD_PARTY_NOTICES.txt',notices);
+await cp('docs/INTEGRATION.md','artifacts/extension/README.md');
+const ext={};async function extensionFiles(dir,prefix=''){for(const entry of await readdir(dir,{withFileTypes:true})){const name=prefix+entry.name;if(entry.isDirectory())await extensionFiles(dir+'/'+entry.name,name+'/');else ext[name]=new Uint8Array(await readFile(dir+'/'+entry.name));}}await extensionFiles('artifacts/extension');
+const extensionZip=zipSync(ext);
+await writeFile(out+`/schema-chrome-${extensionVersion}.zip`,extensionZip);
+await writeFile(out+`/moyue-chrome-${extensionVersion}.zip`,extensionZip);
+// Existing links also deliver the fixed extension.
+for(const name of (await readdir(out)).filter(name=>/^(?:schema|moyue)-chrome-[\d.]+\.zip$/.test(name)))await writeFile(out+'/'+name,extensionZip);
+await cp('docs/INTEGRATION.md','packages/moyue/README.md');
+await cp('docs/FORMAT.md','packages/moyue/FORMAT.md');
+execFileSync('npm',['pack','./packages/moyue','--pack-destination',out],{stdio:'inherit'});
+for(const name of ['FORMAT.md','INTEGRATION.md','ISSUES-18.md','EXPORT-FIDELITY.md','CONTENT-LAYOUT.md','BRAND-MIGRATION.md','brand-audit.json'])await cp('docs/'+name,out+'/'+name);
+await cp('packages/moyue/document.schema.json',out+'/document.schema.json');
+// No hosting identity, Git credentials, build outputs, uploaded annotations or dependency caches in source archive.
+const files={};const excluded=new Set(['node_modules','.git','.openai','dist','artifacts','downloads']);
+async function walk(dir){for(const item of await readdir(dir,{withFileTypes:true})){if(excluded.has(item.name)||item.name.endsWith('.tsbuildinfo'))continue;const path=dir?dir+'/'+item.name:item.name;if(item.isDirectory())await walk(path);else if(item.isFile())files[path]=new Uint8Array(await readFile(path));}}
+await walk('src');await walk('packages');await walk('extension');await walk('scripts');await walk('docs');await walk('examples');await walk('vendor');await walk('public');await walk('openui-chat');
+for(const name of ['README.md','LICENSE','package.json','package-lock.json','tsconfig.json','vite.config.ts','vitest.config.mts','index.html','openui-chat.html','openui-gallery.html','.gitignore'])files[name]=new Uint8Array(await readFile(name));
+const sourceZip=zipSync(files,{level:6});
+await writeFile(out+`/moyue-source-${extensionVersion}.zip`,sourceZip);
+for(const version of ['1.0.0','1.0.1','1.0.2','1.0.3','2.0.0','2.1.0','2.2.0','2.2.1','2.2.2','2.2.3'])await rm(out+`/moyue-source-${version}.zip`,{force:true});
+console.log('Built SDK, MV3 extension, schema and portable source archive.');

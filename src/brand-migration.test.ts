@@ -1,0 +1,20 @@
+// @vitest-environment jsdom
+import {it,expect,afterEach,vi} from 'vitest';
+import {readFileSync} from 'node:fs';
+import compatibility from './fixtures/brand-compatibility.json';
+import {createElement} from 'react';
+import {renderToStaticMarkup} from 'react-dom/server';
+import ReplyReplica from './ReplyReplica';
+import DocumentStudio from './DocumentStudio';
+import {validateDocument,packDocument,unpackDocument} from '../packages/moyue/src/document';
+import {DocumentRenderer} from '../packages/moyue/src/DocumentRenderer';
+import {exportFilename} from '../extension/export-name';
+afterEach(()=>vi.restoreAllMocks());
+
+it('shows the new brand in main product surfaces and leaves compatibility strings recognizable',()=>{Object.defineProperty(URL,'createObjectURL',{configurable:true,value:vi.fn(()=> 'blob:sample')});Object.defineProperty(URL,'revokeObjectURL',{configurable:true,value:vi.fn()});for(const Component of [ReplyReplica,DocumentStudio]){const t=document.createElement('template');t.innerHTML=renderToStaticMarkup(createElement(Component));const text=t.content.textContent||'';expect(text).toContain('SCHEMA');expect(text).not.toMatch(/墨阅|\bMoyue\b|\bMOYUE\b/);}});
+it('uses consistent new metadata in Chinese and English HTML entries',()=>{for(const path of ['index.html','openui-chat.html','openui-gallery.html','openui-chat/index.html','examples/react/index.html','public/reply/demo.html']){const t=document.createElement('template');t.innerHTML=readFileSync(path,'utf8');expect(t.content.querySelector('title')?.textContent).toContain('SCHEMA');expect(t.content.querySelector('meta[property="og:site_name"]')?.getAttribute('content')).toBe('SCHEMA');expect(t.content.querySelector('meta[name="twitter:title"]')?.getAttribute('content')).toContain('SCHEMA');expect(t.content.querySelector('meta[name="description"]')?.getAttribute('content')).not.toMatch(/墨阅|Moyue/i);}});
+it('renames extension display fields without changing permissions or identity configuration',()=>{const old=compatibility.manifest,current=JSON.parse(readFileSync('extension/manifest.json','utf8'));expect(current.name).toContain('视码 SCHEMA');expect(current.description).toContain('SCHEMA');for(const field of ['permissions','optional_host_permissions','manifest_version','key','background','content_security_policy'])expect(current[field]).toEqual((old as Record<string,unknown>)[field]);expect(JSON.parse(readFileSync('packages/moyue/package.json','utf8')).name).toBe('@moyue/document-kit');});
+it('preserves old document data, Unicode content, file naming and format markers',()=>{const old=validateDocument({format:'moyue-document',version:1,title:'Historical document',createdAt:'2025-01-01T00:00:00.000Z',blocks:[{type:'markdown',content:'旧用户内容：墨阅 / Moyue，不允许品牌迁移改写正文。'}],assets:[],warnings:[]});const result=unpackDocument(packDocument({document:old,files:{}})).document;expect(result).toEqual(validateDocument(old));expect(result.format).toBe('moyue-document');expect(renderToStaticMarkup(createElement(DocumentRenderer,{document:result}))).toContain('旧用户内容：墨阅 / Moyue');expect(exportFilename(new Date(2026,9,25,12,34,56))).toBe('chatgpt-2026-10-25_12-34-56.schema.zip');});
+it('keeps storage and extension message namespaces unchanged',()=>{const identifiers=(text:string)=>[...text.matchAll(/['"`]([^'"`]*(?:moyue|__moyue)[^'"`]*)['"`]/gi)].map(m=>m[1]).filter(v=>!v.includes('2.2.')&&!v.includes('Moyue JSON'));for(const path of ['extension/background.js','packages/moyue/src/native-map.tsx'])expect(identifiers(readFileSync(path,'utf8'))).toEqual((compatibility.identifiers as Record<string,string[]>)[path]);});
+
+it('does not upgrade runtime, development or SDK peer dependencies for branding',()=>{const pkg=JSON.parse(readFileSync('package.json','utf8'));expect(pkg.dependencies).toEqual(compatibility.dependencies);expect(pkg.devDependencies).toEqual(compatibility.devDependencies);const sdk=JSON.parse(readFileSync('packages/moyue/package.json','utf8'));expect(sdk.peerDependencies).toEqual(compatibility.sdkPeerDependencies);});

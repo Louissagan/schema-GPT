@@ -1,0 +1,9 @@
+/* Product wordmark only; rendering and compatibility namespaces remain unchanged. */
+.schema-wordmark{font-weight:700;letter-spacing:.045em;white-space:nowrap}
+.schema-wordmark>span,.schema-wordmark .brand-sub{letter-spacing:normal;font-weight:400}
+
+.schema-logo{position:relative;display:inline-flex!important;flex:none;align-items:center;vertical-align:middle;line-height:1;overflow:visible!important;background:transparent!important;padding:0!important;border-radius:0!important;width:auto!important;height:auto!important}
+.schema-logo img{display:block;width:130px;height:auto;max-width:100%;object-fit:contain}
+.schema-logo-text{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+:is(.foundation-dark,.lab-dark,.dark) .schema-logo{background:#fff!important;border-radius:6px!important;padding:3px 6px!important}
+@media(max-width:600px){.schema-logo img{width:112px}}

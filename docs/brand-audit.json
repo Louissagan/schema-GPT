@@ -1,0 +1,358 @@
+{
+  "initialMatchedLines": 744,
+  "scope": "Owned source, docs and generated text; dependency/build caches and binary archives excluded.",
+  "files": [
+    {
+      "path": "LICENSE",
+      "matchedLines": 1
+    },
+    {
+      "path": "README.md",
+      "matchedLines": 6
+    },
+    {
+      "path": "docs/FORMAT.md",
+      "matchedLines": 6
+    },
+    {
+      "path": "docs/INTEGRATION.md",
+      "matchedLines": 17
+    },
+    {
+      "path": "docs/ISSUES-18.md",
+      "matchedLines": 1
+    },
+    {
+      "path": "examples/react/index.html",
+      "matchedLines": 1
+    },
+    {
+      "path": "examples/react/package.json",
+      "matchedLines": 1
+    },
+    {
+      "path": "examples/react/src.tsx",
+      "matchedLines": 2
+    },
+    {
+      "path": "extension/background.js",
+      "matchedLines": 1
+    },
+    {
+      "path": "extension/content.ts",
+      "matchedLines": 23
+    },
+    {
+      "path": "extension/detect.ts",
+      "matchedLines": 5
+    },
+    {
+      "path": "extension/export-name.ts",
+      "matchedLines": 1
+    },
+    {
+      "path": "extension/manifest.json",
+      "matchedLines": 2
+    },
+    {
+      "path": "extension/popup.html",
+      "matchedLines": 1
+    },
+    {
+      "path": "extension/popup.js",
+      "matchedLines": 3
+    },
+    {
+      "path": "index.html",
+      "matchedLines": 1
+    },
+    {
+      "path": "openui-chat.html",
+      "matchedLines": 1
+    },
+    {
+      "path": "openui-chat/index.html",
+      "matchedLines": 1
+    },
+    {
+      "path": "openui-gallery.html",
+      "matchedLines": 1
+    },
+    {
+      "path": "packages/moyue/FORMAT.md",
+      "matchedLines": 6
+    },
+    {
+      "path": "packages/moyue/LICENSE",
+      "matchedLines": 1
+    },
+    {
+      "path": "packages/moyue/README.md",
+      "matchedLines": 17
+    },
+    {
+      "path": "packages/moyue/package.json",
+      "matchedLines": 1
+    },
+    {
+      "path": "packages/moyue/src/Citation.tsx",
+      "matchedLines": 2
+    },
+    {
+      "path": "packages/moyue/src/ComponentRenderer.tsx",
+      "matchedLines": 15
+    },
+    {
+      "path": "packages/moyue/src/DocumentRenderer.tsx",
+      "matchedLines": 11
+    },
+    {
+      "path": "packages/moyue/src/WidgetRenderer.tsx",
+      "matchedLines": 1
+    },
+    {
+      "path": "packages/moyue/src/capture-links.ts",
+      "matchedLines": 6
+    },
+    {
+      "path": "packages/moyue/src/content-layout.ts",
+      "matchedLines": 4
+    },
+    {
+      "path": "packages/moyue/src/control-data.ts",
+      "matchedLines": 3
+    },
+    {
+      "path": "packages/moyue/src/document.ts",
+      "matchedLines": 10
+    },
+    {
+      "path": "packages/moyue/src/extract.ts",
+      "matchedLines": 15
+    },
+    {
+      "path": "packages/moyue/src/html.ts",
+      "matchedLines": 5
+    },
+    {
+      "path": "packages/moyue/src/image-viewer.tsx",
+      "matchedLines": 2
+    },
+    {
+      "path": "packages/moyue/src/legacy-widgets.ts",
+      "matchedLines": 2
+    },
+    {
+      "path": "packages/moyue/src/native-map.tsx",
+      "matchedLines": 3
+    },
+    {
+      "path": "packages/moyue/src/portable-media.tsx",
+      "matchedLines": 2
+    },
+    {
+      "path": "packages/moyue/src/presentation.ts",
+      "matchedLines": 41
+    },
+    {
+      "path": "packages/moyue/src/reading.css",
+      "matchedLines": 252
+    },
+    {
+      "path": "packages/moyue/src/recognize.ts",
+      "matchedLines": 23
+    },
+    {
+      "path": "packages/moyue/src/repair-layout.ts",
+      "matchedLines": 5
+    },
+    {
+      "path": "packages/moyue/src/source-components.ts",
+      "matchedLines": 3
+    },
+    {
+      "path": "packages/moyue/src/style.css",
+      "matchedLines": 20
+    },
+    {
+      "path": "packages/moyue/src/widgets.tsx",
+      "matchedLines": 5
+    },
+    {
+      "path": "public/downloads/FORMAT.md",
+      "matchedLines": 6
+    },
+    {
+      "path": "public/downloads/INTEGRATION.md",
+      "matchedLines": 17
+    },
+    {
+      "path": "public/downloads/ISSUES-18.md",
+      "matchedLines": 1
+    },
+    {
+      "path": "public/qa-report.json",
+      "matchedLines": 2
+    },
+    {
+      "path": "public/reply/demo.html",
+      "matchedLines": 1
+    },
+    {
+      "path": "scripts/build-distribution.mjs",
+      "matchedLines": 13
+    },
+    {
+      "path": "scripts/build-reference.mjs",
+      "matchedLines": 4
+    },
+    {
+      "path": "scripts/verify-extension.mjs",
+      "matchedLines": 10
+    },
+    {
+      "path": "src/DocumentStudio.tsx",
+      "matchedLines": 5
+    },
+    {
+      "path": "src/FoundationLab.tsx",
+      "matchedLines": 2
+    },
+    {
+      "path": "src/Lab.tsx",
+      "matchedLines": 4
+    },
+    {
+      "path": "src/Legacy.tsx",
+      "matchedLines": 7
+    },
+    {
+      "path": "src/ReplayChat.tsx",
+      "matchedLines": 3
+    },
+    {
+      "path": "src/ReplyReplica.tsx",
+      "matchedLines": 5
+    },
+    {
+      "path": "src/SimulatedChat.tsx",
+      "matchedLines": 1
+    },
+    {
+      "path": "src/content-types.test.ts",
+      "matchedLines": 11
+    },
+    {
+      "path": "src/document-studio.css",
+      "matchedLines": 1
+    },
+    {
+      "path": "src/export-fidelity.test.ts",
+      "matchedLines": 14
+    },
+    {
+      "path": "src/export-preparation.test.ts",
+      "matchedLines": 3
+    },
+    {
+      "path": "src/extension-background.test.ts",
+      "matchedLines": 1
+    },
+    {
+      "path": "src/extension-detection.test.ts",
+      "matchedLines": 5
+    },
+    {
+      "path": "src/extension-popup.test.ts",
+      "matchedLines": 1
+    },
+    {
+      "path": "src/file-card-normalization.test.ts",
+      "matchedLines": 4
+    },
+    {
+      "path": "src/function-examples.ts",
+      "matchedLines": 1
+    },
+    {
+      "path": "src/image-viewer.test.ts",
+      "matchedLines": 4
+    },
+    {
+      "path": "src/interactive-portability.test.ts",
+      "matchedLines": 12
+    },
+    {
+      "path": "src/legacy-form-export.test.ts",
+      "matchedLines": 4
+    },
+    {
+      "path": "src/native-engines.test.ts",
+      "matchedLines": 2
+    },
+    {
+      "path": "src/native-map.test.ts",
+      "matchedLines": 3
+    },
+    {
+      "path": "src/portable-document.test.ts",
+      "matchedLines": 4
+    },
+    {
+      "path": "src/portable-presentation.test.ts",
+      "matchedLines": 15
+    },
+    {
+      "path": "src/portable-sample.ts",
+      "matchedLines": 2
+    },
+    {
+      "path": "src/real-export-regression.test.ts",
+      "matchedLines": 12
+    },
+    {
+      "path": "src/reply-components/Charts.tsx",
+      "matchedLines": 2
+    },
+    {
+      "path": "src/reply-components/Details.tsx",
+      "matchedLines": 2
+    },
+    {
+      "path": "src/reply-components/Diagram.tsx",
+      "matchedLines": 2
+    },
+    {
+      "path": "src/reply-components/LiveForm.tsx",
+      "matchedLines": 1
+    },
+    {
+      "path": "src/reply-components/PlacesMap.tsx",
+      "matchedLines": 2
+    },
+    {
+      "path": "src/reply-components/foundation-nodes.ts",
+      "matchedLines": 1
+    },
+    {
+      "path": "src/reply-interactions.test.ts",
+      "matchedLines": 1
+    },
+    {
+      "path": "src/semantic-pipeline.test.ts",
+      "matchedLines": 9
+    },
+    {
+      "path": "src/shared-replays.ts",
+      "matchedLines": 2
+    },
+    {
+      "path": "src/simulated-answers.ts",
+      "matchedLines": 1
+    },
+    {
+      "path": "src/source-components.test.ts",
+      "matchedLines": 11
+    }
+  ]
+}

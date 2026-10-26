@@ -1,0 +1,1 @@
+{"name":"moyue-consumer-example","private":true,"type":"module","scripts":{"dev":"vite","build":"vite build"},"dependencies":{"@moyue/document-kit":"file:../../packages/moyue","react":"^19.2.3","react-dom":"^19.2.3","vite":"^7.1.0","typescript":"^5.9.2"}}

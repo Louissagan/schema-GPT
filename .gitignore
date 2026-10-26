@@ -1,0 +1,16 @@
+node_modules/
+dist/
+artifacts/
+public/downloads/
+packages/moyue/dist/
+*.tsbuildinfo
+.openai/
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+
+node_modules
+
+/public/upstream-source.tar.gz

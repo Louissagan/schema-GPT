@@ -1,0 +1,60 @@
+// @vitest-environment jsdom
+import { afterEach, beforeEach, expect, it, vi } from 'vitest';
+import { createElement } from 'react';
+import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
+import { LiveForm } from './reply-components/LiveForm';
+import { RichTextDemo } from './reply-components/Details';
+import { PlacesMap } from './reply-components/PlacesMap';
+vi.mock('maplibre-gl',()=>({setWorkerUrl:vi.fn(),Map:class{constructor(){throw new Error('No map engine in this interaction test');}}}));
+afterEach(()=>cleanup());
+beforeEach(()=>{vi.stubGlobal('IntersectionObserver',class{observe(){} disconnect(){} unobserve(){}});});
+it('switches the actual result structure to a table and keeps every field reactive',()=>{
+ render(createElement(LiveForm));
+ expect(screen.queryByRole('table')).toBeNull();
+ fireEvent.click(screen.getByRole('button',{name:'表格模式'}));
+ const table=screen.getByRole('table',{name:'实时渲染结果表格'});
+ expect(within(table).getAllByRole('row')).toHaveLength(6);
+ fireEvent.change(screen.getByRole('textbox',{name:/案例名称/}),{target:{value:'New research'}});
+ fireEvent.click(screen.getByRole('radio',{name:'空间分析'}));
+ fireEvent.change(screen.getByRole('combobox'),{target:{value:'Markdown'}});
+ fireEvent.change(screen.getByRole('slider'),{target:{value:'4'}});
+ fireEvent.change(screen.getByRole('textbox',{name:/备注/}),{target:{value:'Updated note'}});
+ for(const value of ['New research','space','Markdown','4/5','Updated note']) expect(within(table).getByText(value)).toBeTruthy();
+ fireEvent.click(screen.getByRole('checkbox',{name:/显示参考资料/}));
+ expect(screen.queryByRole('link',{name:/Hallé 官方网站/})).toBeNull();
+ fireEvent.click(screen.getByRole('button',{name:'卡片模式'}));
+ expect(screen.queryByRole('table')).toBeNull();
+ expect(screen.getByRole('heading',{name:'New research'})).toBeTruthy();
+ expect(document.querySelector('.reply-result-card')?.textContent).toContain('Updated note');
+});
+it('keeps the light and dark form controls independent',()=>{
+ const result=render(createElement('div',null,createElement('div',{'data-testid':'light'},createElement(LiveForm)),createElement('div',{'data-testid':'dark'},createElement(LiveForm))));
+ const light=within(result.getByTestId('light')),dark=within(result.getByTestId('dark'));
+ fireEvent.click(dark.getByRole('button',{name:'表格模式'}));
+ fireEvent.click(dark.getByRole('radio',{name:'材料分析'}));
+ expect(dark.getByRole('table')).toBeTruthy();
+ expect(light.queryByRole('table')).toBeNull();
+ expect((light.getByRole('radio',{name:'结构分析'}) as HTMLInputElement).checked).toBe(true);
+});
+it('restores the mixed typography and real togglable circular checklist controls',()=>{
+ const {container}=render(createElement(RichTextDemo));
+ expect(container.querySelector('u')?.textContent).toBe('下划线');
+ expect(container.querySelector('del')?.textContent).toBe('删除线');
+ expect(container.querySelector('.katex')).toBeTruthy();
+ const task=screen.getByRole('checkbox',{name:'分析结构体系'}) as HTMLInputElement;
+ expect(task.checked).toBe(false);fireEvent.click(task);expect(task.checked).toBe(true);
+ expect(task.nextElementSibling?.className).toBe('reply-check-visual');
+});
+it('exposes all three map pins and opens the matching hover or keyboard info card',()=>{
+ const {container}=render(createElement(PlacesMap,{theme:'light'}));
+ expect(container.querySelectorAll('.moyue-map-list button')).toHaveLength(3);
+ const pin=screen.getByRole('button',{name:'Royal Exchange Theatre'});
+ fireEvent.mouseEnter(pin);
+ const card=screen.getByRole('region',{name:'Royal Exchange Theatre 地点信息'});
+ expect(within(card).getByText('表演艺术剧院')).toBeTruthy();
+ expect(within(card).getByRole('link',{name:/网站/}).getAttribute('href')).toBe('https://www.royalexchange.co.uk/');
+ fireEvent.focus(screen.getByRole('button',{name:'UMIST Staff House'}));
+ expect(screen.getByRole('region',{name:'UMIST Staff House 地点信息'})).toBeTruthy();
+ fireEvent.click(screen.getByRole('button',{name:'关闭地点信息'}));
+ expect(screen.queryByRole('region',{name:/地点信息/})).toBeNull();
+});
